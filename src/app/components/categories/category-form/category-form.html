@@ -1,0 +1,34 @@
+<div class="form-container">
+  <h2>{{ isEditing ? 'Edit' : 'Add' }} Category</h2>
+
+  <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Category Name*</label>
+      <input type="text" 
+             formControlName="name" 
+             placeholder="e.g., Newsletters">
+      <span class="error-text" *ngIf="categoryForm.get('name')?.errors?.['required'] && categoryForm.get('name')?.touched">
+        Name is required
+      </span>
+    </div>
+
+    <div class="form-group">
+      <label>Description*</label>
+      <textarea formControlName="description" 
+                rows="6"
+                placeholder="Describe how emails should be sorted into this category..."></textarea>
+      <span class="error-text" *ngIf="categoryForm.get('description')?.errors?.['required'] && categoryForm.get('description')?.touched">
+        Description is required
+      </span>
+    </div>
+
+    <div class="button-group">
+      <button type="button" class="btn-secondary" routerLink="/categories">Cancel</button>
+      <button type="submit" 
+              class="btn-primary"
+              [disabled]="categoryForm.invalid">
+        {{ isEditing ? 'Update' : 'Create' }} Category
+      </button>
+    </div>
+  </form>
+</div>

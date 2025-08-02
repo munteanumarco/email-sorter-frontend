@@ -1,0 +1,27 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="app-logo">
+      <div class="logo-icon">
+        <mat-icon>mail</mat-icon>
+      </div>
+      <h1>CleanMail</h1>
+      <p class="tagline">Effortless inbox organization powered by AI</p>
+    </div>
+
+    <button 
+      mat-stroked-button
+      (click)="login()" 
+      [disabled]="isLoading"
+      class="login-button">
+      <span class="button-content">
+        <img src="/google-logo.png" alt="Google" class="google-logo" *ngIf="!isLoading">
+        <mat-icon *ngIf="isLoading" class="spin">sync</mat-icon>
+        <span class="button-text">{{ isLoading ? 'Signing in...' : 'Sign in with Google' }}</span>
+      </span>
+    </button>
+
+    <div class="error-message" *ngIf="error">
+      {{ error }}
+    </div>
+  </div>
+</div>

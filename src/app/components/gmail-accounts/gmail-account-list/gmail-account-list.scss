@@ -1,0 +1,114 @@
+:host {
+  display: block;
+  padding: 24px;
+}
+
+.sync-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 16px;
+  color: #5f6368;
+  font-size: 14px;
+
+  .info-icon {
+    color: #1a73e8;
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.accounts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.account-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+
+  &.primary-account {
+    background: #e8f0fe;
+    border: 2px solid #1a73e8;
+
+    .primary-icon {
+      color: #1a73e8;
+    }
+  }
+
+  &:hover {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.account-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  flex: 1;
+}
+
+.account-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.account-title {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: #202124;
+  margin-bottom: 4px;
+}
+
+.primary-badge {
+  display: inline-flex;
+  align-items: center;
+  background: #1a73e8;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  margin-left: 12px;
+  font-weight: 500;
+  position: relative;
+  cursor: help;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    z-index: -1;
+  }
+}
+
+.account-sync {
+  font-size: 14px;
+  color: #5f6368;
+}
+
+mat-divider {
+  margin: 16px 0;
+  border-top-width: 2px;
+  border-top-color: #e0e0e0;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.account-actions {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
