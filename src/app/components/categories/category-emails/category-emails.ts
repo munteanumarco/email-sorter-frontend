@@ -133,6 +133,45 @@ export class CategoryEmailsComponent implements OnInit {
     });
   }
 
+  unsubscribeFromSelected() {
+    if (this.selectedEmails.size === 0) return;
+
+    const emailCount = this.selectedEmails.size;
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Confirm Unsubscribe',
+        message: `Are you sure you want to unsubscribe from ${emailCount} ${emailCount === 1 ? 'sender' : 'senders'}?`
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        const emailIds = Array.from(this.selectedEmails);
+        this.emailService.unsubscribeFromEmails(emailIds).subscribe({
+          next: () => {
+            this.snackBar.open('Unsubscribe requests sent successfully', '', { 
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'bottom',
+              panelClass: ['success-snackbar']
+            });
+            this.selectedEmails.clear();
+            this.loadEmails(this.category!.id);
+          },
+          error: (error) => {
+            console.error('Error processing unsubscribe requests:', error);
+            this.snackBar.open('Failed to process unsubscribe requests', '', { 
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'bottom',
+              panelClass: ['error-snackbar']
+            });
+          }
+        });
+      }
+    });
+  }
+
   viewEmail(email: Email, event: MouseEvent) {
     // Don't trigger if clicking the checkbox
     if ((event.target as HTMLElement).closest('.email-checkbox')) {

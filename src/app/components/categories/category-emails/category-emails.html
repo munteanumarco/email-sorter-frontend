@@ -14,9 +14,13 @@
             <mat-icon>{{ selectedEmails.size === emails.length ? 'deselect_all' : 'select_all' }}</mat-icon>
             {{ selectedEmails.size === emails.length ? 'Deselect All' : 'Select All' }}
           </button>
+          <button mat-raised-button color="accent" [disabled]="selectedEmails.size === 0" (click)="unsubscribeFromSelected()">
+            <mat-icon>unsubscribe</mat-icon>
+            Unsubscribe ({{ selectedEmails.size }})
+          </button>
           <button mat-raised-button color="warn" [disabled]="selectedEmails.size === 0" (click)="deleteSelectedEmails()">
             <mat-icon>delete</mat-icon>
-            Delete Selected ({{ selectedEmails.size }})
+            Delete ({{ selectedEmails.size }})
           </button>
         </div>
         <div class="email-count">

@@ -50,4 +50,8 @@ export class EmailService {
   bulkDeleteEmails(emailIds: number[]): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/emails/bulk-delete`, emailIds);
   }
+
+  unsubscribeFromEmails(emailIds: number[]): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/emails/unsubscribe`, emailIds);
+  }
 }
