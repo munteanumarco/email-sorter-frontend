@@ -11,7 +11,7 @@ import { AuthService } from '../../../services/auth';
   template: `
     <div class="callback-container">
       <mat-spinner></mat-spinner>
-      <p>{{ error || 'Completing sign in...' }}</p>
+      <p>{{ error || message }}</p>
     </div>
   `,
   styles: [`
@@ -31,6 +31,7 @@ import { AuthService } from '../../../services/auth';
 })
 export class CallbackComponent implements OnInit {
   error: string | null = null;
+  message: string = 'Completing authentication...';
 
   constructor(
     private authService: AuthService,
@@ -42,54 +43,60 @@ export class CallbackComponent implements OnInit {
     console.log('Callback component initialized');
     
     try {
-      // Subscribe to query params instead of using toPromise
       this.route.queryParams.subscribe(async params => {
-        console.log('Query params:', params);
+        console.log('Callback params:', params);
         
         if (!params) {
           throw new Error('No query parameters received');
         }
 
-        const accessToken = params['access_token'];
-        const code = params['code'];
         const error = params['error'];
+        const message = params['message'];
+        const gmailAccountId = params['gmail_account_id'];
+        const accessToken = params['access_token'];
         
         try {
-          if (accessToken) {
-            // If we got the token directly from the backend redirect
-            console.log('Received access token from backend redirect');
-            await this.authService.handleDirectCallback(params);
-            console.log('Direct callback handled successfully');
-            
-            // Navigate to dashboard after successful auth
-            await this.router.navigate(['/dashboard']);
-          } else if (code) {
-            // If we got the authorization code
-            console.log('Received authorization code');
-            await this.authService.handleGoogleCallback(code);
-            console.log('Code exchange successful');
-            
-            // Navigate to dashboard after successful auth
-            await this.router.navigate(['/dashboard']);
-          } else if (error) {
+          if (error) {
             throw new Error(error);
-          } else {
-            throw new Error('No authentication code received');
           }
+
+          // Handle Gmail account connection success
+          if (message && gmailAccountId) {
+            console.log('Account connection successful:', { message, gmailAccountId });
+            this.message = message;
+            await this.router.navigate(['/gmail-accounts']);
+            return;
+          }
+
+          // Handle login success
+          if (accessToken) {
+            console.log('Login successful, handling callback');
+            await this.authService.handleDirectCallback(params);
+            const returnUrl = localStorage.getItem('returnUrl');
+            localStorage.removeItem('returnUrl');
+            await this.router.navigate([returnUrl || '/dashboard']);
+            return;
+          }
+
+          throw new Error('Invalid response format');
         } catch (error) {
-          console.error('Error during auth callback:', error);
+          console.error('Error during callback:', error);
           this.error = error instanceof Error ? error.message : 'Authentication failed';
-          this.authService.logout();
-          setTimeout(() => this.router.navigate(['/login']), 3000);
+          
+          // If we have a message, this was a connect flow
+          if (message) {
+            setTimeout(() => this.router.navigate(['/gmail-accounts']), 3000);
+          } else {
+            // Otherwise it was a login flow
+            this.authService.logout();
+            setTimeout(() => this.router.navigate(['/login']), 3000);
+          }
         }
       });
     } catch (error) {
-      console.error('Authentication error:', error);
-      this.error = error instanceof Error ? error.message : 'Failed to complete authentication. Please try again.';
-      
-      // Clear any partial auth state
+      console.error('Callback error:', error);
+      this.error = error instanceof Error ? error.message : 'Failed to complete authentication';
       this.authService.logout();
-      
       setTimeout(() => this.router.navigate(['/login']), 3000);
     }
   }
