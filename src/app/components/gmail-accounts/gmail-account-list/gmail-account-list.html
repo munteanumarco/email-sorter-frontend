@@ -35,12 +35,14 @@
         <mat-icon>add</mat-icon>
         Connect Gmail Account
       </button>
-      <button mat-raised-button color="accent" (click)="syncAllAccounts()" [disabled]="isSyncingAll || accounts.length === 0">
-        <mat-icon>
-          <mat-spinner diameter="20" *ngIf="isSyncingAll; else syncAllIcon"></mat-spinner>
-          <ng-template #syncAllIcon>sync</ng-template>
-        </mat-icon>
-        Sync All Accounts
+      <button mat-raised-button color="accent" class="sync-button" (click)="syncAllAccounts()" [disabled]="isSyncingAll || accounts.length === 0">
+        <div class="button-content">
+          <div class="icon-container">
+            <mat-spinner class="spinner" [class.show]="isSyncingAll" diameter="20" [strokeWidth]="3" color="accent"></mat-spinner>
+            <mat-icon class="sync-icon" [class.hide]="isSyncingAll">sync</mat-icon>
+          </div>
+          <span>Sync All Accounts</span>
+        </div>
       </button>
     </div>
   </mat-card-actions>

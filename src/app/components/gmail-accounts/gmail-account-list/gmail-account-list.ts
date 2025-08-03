@@ -100,10 +100,11 @@ export class GmailAccountListComponent implements OnInit {
   }
 
   syncAllAccounts() {
+    if (this.isSyncingAll) return; // Prevent multiple clicks
+    
     this.isSyncingAll = true;
     this.gmailAccountService.syncAllAccounts().subscribe({
       next: () => {
-        this.isSyncingAll = false;
         this.snackBar.open('All Gmail accounts sync triggered successfully', 'Dismiss', { 
           duration: 3000,
           panelClass: ['success-snackbar']
@@ -113,11 +114,13 @@ export class GmailAccountListComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error syncing all accounts:', error);
-        this.isSyncingAll = false;
         this.snackBar.open('Failed to sync all Gmail accounts', 'Dismiss', { 
           duration: 3000,
           panelClass: ['error-snackbar']
         });
+      },
+      complete: () => {
+        this.isSyncingAll = false;
       }
     });
   }

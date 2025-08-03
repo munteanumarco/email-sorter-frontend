@@ -112,3 +112,50 @@ mat-divider {
   align-items: center;
   margin-left: auto;
 }
+
+.sync-button {
+  .button-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    position: relative;
+
+    .sync-icon {
+      position: absolute;
+      margin: 0;
+      height: 20px;
+      width: 20px;
+      font-size: 20px;
+      line-height: 20px;
+      transition: opacity 0.3s ease;
+      opacity: 1;
+
+      &.hide {
+        opacity: 0;
+      }
+    }
+
+    .spinner {
+      position: absolute;
+      margin: 0;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+
+      &.show {
+        opacity: 1;
+      }
+
+      ::ng-deep circle {
+        stroke-width: 3px;
+      }
+    }
+  }
+}
