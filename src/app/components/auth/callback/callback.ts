@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../../services/auth';
+import { GmailAccountService } from '../../../services/gmail-account.service';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-callback',
@@ -35,6 +37,7 @@ export class CallbackComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private gmailAccountService: GmailAccountService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
@@ -63,8 +66,6 @@ export class CallbackComponent implements OnInit {
           // Handle Gmail account connection success
           if (message && gmailAccountId) {
             console.log('Account connection successful:', { message, gmailAccountId });
-            this.message = message;
-            await this.router.navigate(['/gmail-accounts']);
             return;
           }
 

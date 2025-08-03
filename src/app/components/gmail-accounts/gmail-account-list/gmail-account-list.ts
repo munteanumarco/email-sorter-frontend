@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,6 +9,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
 import { GmailAccountService, GmailAccount } from '../../../services/gmail-account.service';
 import { RefreshService } from '../../../services/refresh.service';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-gmail-account-list',
@@ -25,12 +26,13 @@ import { RefreshService } from '../../../services/refresh.service';
   templateUrl: './gmail-account-list.html',
   styleUrls: ['./gmail-account-list.scss']
 })
-export class GmailAccountListComponent implements OnInit {
+export class GmailAccountListComponent implements OnInit, OnDestroy {
   accounts: GmailAccount[] = [];
   isLoading = true;
   isConnecting = false;
   isSyncing: { [key: number]: boolean } = {};
   isSyncingAll = false;
+  private refreshSubscription?: Subscription;
 
   get sortedAccounts(): GmailAccount[] {
     return [...this.accounts].sort((a, b) => {
@@ -48,10 +50,21 @@ export class GmailAccountListComponent implements OnInit {
 
   ngOnInit() {
     this.loadAccounts();
+    // Start polling every 30 seconds
+    this.refreshSubscription = interval(30000).subscribe(() => {
+      console.log('Auto-refreshing accounts list...');
+      this.loadAccounts();
+    });
+  }
+
+  ngOnDestroy() {
+    // Clean up subscription when component is destroyed
+    if (this.refreshSubscription) {
+      this.refreshSubscription.unsubscribe();
+    }
   }
 
   loadAccounts() {
-    this.isLoading = true;
     this.gmailAccountService.getAccounts().subscribe({
       next: (accounts) => {
         this.accounts = accounts;
