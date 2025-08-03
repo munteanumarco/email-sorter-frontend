@@ -66,6 +66,21 @@ export class CallbackComponent implements OnInit {
           // Handle Gmail account connection success
           if (message && gmailAccountId) {
             console.log('Account connection successful:', { message, gmailAccountId });
+            this.message = message;
+            
+            // Start initial sync
+            this.gmailAccountService.syncAllAccounts().subscribe({
+              next: () => {
+                console.log('Initial sync triggered successfully');
+                this.message = 'Account connected and sync started!';
+                setTimeout(() => this.router.navigate(['/gmail-accounts']), 1500);
+              },
+              error: (error) => {
+                console.error('Error triggering sync:', error);
+                this.message = 'Account connected! Redirecting...';
+                setTimeout(() => this.router.navigate(['/gmail-accounts']), 1500);
+              }
+            });
             return;
           }
 
