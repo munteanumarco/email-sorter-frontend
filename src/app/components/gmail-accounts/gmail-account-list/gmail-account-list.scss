@@ -78,20 +78,22 @@
   font-size: 12px;
   margin-left: 12px;
   font-weight: 500;
-  position: relative;
-  cursor: help;
-
-  &::after {
-    content: '';
-    position: absolute;
-    inset: -4px;
-    z-index: -1;
-  }
 }
 
 .account-sync {
   font-size: 14px;
   color: #5f6368;
+  margin-bottom: 8px;
+}
+
+.primary-account-info {
+  font-size: 14px;
+  color: #1967d2;
+  background: #e8f0fe;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-top: 8px;
+  border-left: 4px solid #1a73e8;
 }
 
 mat-divider {

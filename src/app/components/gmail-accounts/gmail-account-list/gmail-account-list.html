@@ -15,12 +15,15 @@
             <div class="account-info">
               <div class="account-title">
                 {{ account.email }}
-                <span *ngIf="account.is_primary" class="primary-badge" [matTooltip]="'This is the account you first logged in with.\nUse this account to log in to the application.'" [matTooltipPosition]="'right'" matTooltipClass="account-tooltip">
+                <span *ngIf="account.is_primary" class="primary-badge">
                   Primary Account
                 </span>
               </div>
               <div class="account-sync" *ngIf="account.last_sync_time">
                 Last synced: {{ account.last_sync_time | date:'medium' }} UTC
+              </div>
+              <div *ngIf="account.is_primary" class="primary-account-info">
+                This is your main authentication account. Use this email to log in to this application.
               </div>
             </div>
           </div>
