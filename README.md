@@ -42,7 +42,3 @@ While the core functionality is implemented, there are some areas that could be 
 - Mobile responsiveness could be improved
 - Loading states could be more granular
 - Unit and E2E tests could be expanded
-
-
-```
-
