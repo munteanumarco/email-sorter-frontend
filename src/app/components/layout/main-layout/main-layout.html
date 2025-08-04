@@ -2,13 +2,24 @@
   <mat-toolbar color="primary">
     <a routerLink="/dashboard" class="app-title">CleanMail</a>
     <span class="toolbar-spacer"></span>
+    <button mat-button (click)="showLogs = !showLogs">
+      <mat-icon>terminal</mat-icon>
+      Agent Logs
+    </button>
     <button mat-button (click)="logout()">
       <mat-icon>logout</mat-icon>
       Logout
     </button>
   </mat-toolbar>
 
-  <div class="main-content">
-    <router-outlet></router-outlet>
-  </div>
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav mode="side" position="end" [opened]="showLogs" class="logs-sidenav">
+      <app-agent-logs-viewer></app-agent-logs-viewer>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="main-content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>

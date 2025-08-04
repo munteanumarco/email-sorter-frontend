@@ -4,8 +4,10 @@ import { RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth';
+import { AgentLogsViewerComponent } from '../../agent-logs/agent-logs-viewer';
 
 @Component({
   selector: 'app-main-layout',
@@ -15,7 +17,9 @@ import { AuthService } from '../../../services/auth';
     RouterModule,
     MatToolbarModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatSidenavModule,
+    AgentLogsViewerComponent
   ],
   templateUrl: './main-layout.html',
   styles: [`
@@ -54,15 +58,26 @@ import { AuthService } from '../../../services/auth';
         }
       }
 
-      .main-content {
-        margin-top: 64px; // Height of toolbar
+      .sidenav-container {
         flex: 1;
+        margin-top: 64px; // Height of toolbar
         min-height: calc(100vh - 64px);
+      }
+
+      .logs-sidenav {
+        width: 400px;
+        border-left: 1px solid #e0e0e0;
+      }
+
+      .main-content {
+        padding: 20px;
       }
     }
   `]
 })
 export class MainLayoutComponent {
+  showLogs = false;
+
   constructor(
     private authService: AuthService,
     private router: Router
