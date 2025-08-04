@@ -52,7 +52,7 @@ export class AuthService {
   async initiateGoogleLogin(): Promise<void> {
     try {
       console.log('Initiating Google login');
-      const response = await this.http.get<{url: string}>(`${this.apiUrl}/auth/google-auth-url`).toPromise();
+      const response = await this.http.get<{url: string}>(`${this.apiUrl}/auth/google-auth-url/`).toPromise();
       console.log('Received auth URL:', response);
       
       if (response?.url) {
@@ -71,7 +71,7 @@ export class AuthService {
     try {
       console.log('Initiating Google account connection');
       const response = await this.http.get<{url: string}>(
-        `${this.apiUrl}/auth/google-auth-url?connect_account=true`
+        `${this.apiUrl}/auth/google-auth-url/?connect_account=true`
       ).toPromise();
 
       if (response?.url) {
@@ -88,7 +88,7 @@ export class AuthService {
 
   async handleGoogleCallback(code: string, state: string = 'login'): Promise<AuthResponse> {
     console.log('Handling Google callback with code');
-    const response = await this.http.post<AuthResponse>(`${this.apiUrl}/auth/exchange-code`, { code, state }).toPromise();
+    const response = await this.http.post<AuthResponse>(`${this.apiUrl}/auth/exchange-code/`, { code, state }).toPromise();
     
     if (!response) {
       throw new Error('No response from server');
@@ -148,7 +148,7 @@ export class AuthService {
     
     try {
       // Fetch user data
-      const user = await this.http.get<User>(`${this.apiUrl}/auth/me`).toPromise();
+      const user = await this.http.get<User>(`${this.apiUrl}/auth/me/`).toPromise();
       
       if (!user) {
         throw new Error('No user data received');
@@ -174,7 +174,7 @@ export class AuthService {
 
   fetchCurrentUser(): Observable<User> {
     console.log('Fetching current user');
-    return this.http.get<User>(`${this.apiUrl}/auth/me`).pipe(
+    return this.http.get<User>(`${this.apiUrl}/auth/me/`).pipe(
       tap(user => {
         console.log('Received user info:', user);
         localStorage.setItem('currentUser', JSON.stringify(user));

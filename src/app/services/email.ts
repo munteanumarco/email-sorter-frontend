@@ -42,15 +42,15 @@ export class EmailService {
       params = params.set('search', search);
     }
 
-    return this.http.get<Email[]>(`${this.apiUrl}/emails`, { params });
+    return this.http.get<Email[]>(`${this.apiUrl}/emails/`, { params });
   }
 
   getEmail(id: number): Observable<Email> {
-    return this.http.get<Email>(`${this.apiUrl}/emails/${id}`);
+    return this.http.get<Email>(`${this.apiUrl}/emails/${id}/`);
   }
 
   bulkDeleteEmails(emailIds: number[]): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/emails/bulk-delete`, emailIds);
+    return this.http.post<void>(`${this.apiUrl}/emails/bulk-delete/`, emailIds);
   }
 
   unsubscribeFromEmails(emailIds: number[]): Observable<{
@@ -68,6 +68,6 @@ export class EmailService {
         status: string;
         unsubscribe_link: string;
       }>;
-    }>(`${this.apiUrl}/emails/bulk-unsubscribe`, { email_ids: emailIds });
+    }>(`${this.apiUrl}/emails/bulk-unsubscribe/`, { email_ids: emailIds });
   }
 }
