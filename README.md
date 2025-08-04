@@ -1,79 +1,48 @@
 # Email Sorter Frontend
 
-An Angular-based frontend application that provides a clean and intuitive interface for managing multiple Gmail accounts and organizing emails into categories.
+An Angular-based frontend application that provides a clean and intuitive interface for managing multiple Gmail accounts, organizing emails into categories, and automating unsubscribe processes.
 
-## 🏗️ Architecture
+## 👋 Hey There!
 
-### Core Components
+This is my frontend implementation for the email sorter challenge! Built with Angular and Material Design, it provides a smooth user experience for managing your email organization. The app is deployed on Netlify for easy access.
 
-- **Authentication**: Google OAuth2 integration for login and account connection
-- **Gmail Account Management**: Add and sync multiple Gmail accounts
-- **Email Categories**: View and manage email categories
-- **Dashboard**: Overview of email organization status
+## 🏗️ Core Features
 
-### Key Features
+- **Multi-Account Management**
+  - Connect multiple Gmail accounts
+  - Real-time sync status tracking
+  - Individual account settings
 
-#### Multi-Account Dashboard
-- View all connected Gmail accounts
-- Individual and bulk sync operations
-- Last sync status tracking
-- Real-time sync status indicators
+- **Email Organization**
+  - AI-powered categorization
+  - Custom category creation
+  - Bulk email operations
+  - Email content preview
 
-#### Category Management
-- Create categories
-- View emails per category
+- **Unsubscribe Automation**
+  - One-click unsubscribe requests
+  - Real-time status tracking (Unsubscribing..., Unsubscribed, Failed)
+  - Visual status indicators
+  - Bulk unsubscribe support
 
-## 🚀 Getting Started
+## 🎨 Technical Stack
 
-### Prerequisites
-- Node.js 16+
-- Angular CLI
-- Backend service running
+- **Framework**: Angular with TypeScript
+- **UI**: Angular Material components
+- **State Management**: RxJS
+- **Deployment**: Netlify with automatic deployments
 
-### Environment Setup
-```env
-# src/environments/environment.ts
-export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:8000/api/v1'
-};
+## ⚠️ Limitations & Future Improvements
 
-# src/environments/environment.prod.ts
-export const environment = {
-  production: true,
-  apiUrl: 'https://your-backend-url/api/v1'
-};
+While the core functionality is implemented, there are some areas that could be enhanced:
+
+- Real-time updates could use WebSocket instead of polling
+- More detailed error handling for unsubscribe failures
+- Batch operations could have better progress indicators
+- Mobile responsiveness could be improved
+- Loading states could be more granular
+- Unit and E2E tests could be expanded
+
+
 ```
 
-### Installation
-```bash
-# Install dependencies
-npm install
-
-# Start development server
-ng serve
-
-# Build for production
-ng build --configuration=production
-```
-
-## 🎨 UI Components
-
-- Material Design components
-- Responsive layout
-- Loading indicators for async operations
-- Error handling and user feedback
-
-## 📚 Dependencies
-
-- Angular Material: UI components
-- RxJS: Reactive programming
-- Angular Router: Navigation
-- HttpClient: API communication
-
-## 🚀 Deployment
-
-Currently deployed on Netlify with:
-- Automatic deployments from main branch
-- Environment-specific configuration
-- SPA routing configuration
