@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -7,7 +7,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth';
+import { UiService } from '../../../services/ui.service';
 import { AgentLogsViewerComponent } from '../../agent-logs/agent-logs-viewer';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-main-layout',
@@ -75,13 +78,28 @@ import { AgentLogsViewerComponent } from '../../agent-logs/agent-logs-viewer';
     }
   `]
 })
-export class MainLayoutComponent {
+export class MainLayoutComponent implements OnInit, OnDestroy {
   showLogs = false;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private uiService: UiService
   ) {}
+
+  ngOnInit() {
+    this.uiService.showLogs$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.showLogs = true;
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   logout() {
     this.authService.logout();

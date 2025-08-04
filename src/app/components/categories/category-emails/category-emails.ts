@@ -14,6 +14,7 @@ import { EmailService, Email } from '../../../services/email';
 import { CategoryService, Category } from '../../../services/category';
 import { EmailViewDialogComponent } from '../../emails/email-view-dialog/email-view-dialog';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog';
+import { UiService } from '../../../services/ui.service';
 
 @Component({
   selector: 'app-category-emails',
@@ -42,7 +43,8 @@ export class CategoryEmailsComponent implements OnInit {
     private emailService: EmailService,
     private categoryService: CategoryService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private uiService: UiService
   ) {}
 
   ngOnInit() {
@@ -148,6 +150,9 @@ export class CategoryEmailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(confirmed => {
       if (confirmed) {
+        // Show the agent logs in the sidebar
+        this.uiService.showAgentLogs();
+
         const emailIds = Array.from(this.selectedEmails);
         this.emailService.unsubscribeFromEmails(emailIds).subscribe({
           next: (response: {
@@ -188,7 +193,9 @@ export class CategoryEmailsComponent implements OnInit {
             }, 5000); // Poll every 5 seconds
 
             // Stop polling after 2 minutes
-            setTimeout(() => clearInterval(pollInterval), 120000);
+            setTimeout(() => {
+              clearInterval(pollInterval);
+            }, 120000);
           },
           error: (error: any) => {
             console.error('Error processing unsubscribe requests:', error);
