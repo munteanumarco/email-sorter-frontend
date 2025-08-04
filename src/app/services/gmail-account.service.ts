@@ -21,13 +21,13 @@ export class GmailAccountService {
   constructor(private http: HttpClient) {}
 
   getAccounts(): Observable<GmailAccount[]> {
-    return this.http.get<GmailAccount[]>(`${this.apiUrl}/gmail-accounts`);
+    return this.http.get<GmailAccount[]>(`${this.apiUrl}/gmail-accounts/`);
   }
 
   async connectAccount(): Promise<void> {
     try {
       // Get the auth URL with connect_account=true
-      const response = await this.http.get<{url: string}>(`${this.apiUrl}/auth/google-auth-url?connect_account=true`).toPromise();
+      const response = await this.http.get<{url: string}>(`${this.apiUrl}/auth/google-auth-url/?connect_account=true`).toPromise();
       if (response?.url) {
         // Store current URL to return to after connection
         localStorage.setItem('returnUrl', window.location.pathname);
@@ -43,10 +43,10 @@ export class GmailAccountService {
   }
 
   syncAccount(id: number): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/gmail-accounts/${id}/sync`, {});
+    return this.http.post<void>(`${this.apiUrl}/gmail-accounts/${id}/sync/`, {});
   }
 
   syncAllAccounts(): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/gmail-accounts/sync-all`, {});
+    return this.http.post<void>(`${this.apiUrl}/gmail-accounts/sync-all/`, {});
   }
 }
