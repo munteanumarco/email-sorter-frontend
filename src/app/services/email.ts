@@ -17,6 +17,8 @@ export interface Email {
   gmail_account?: {
     email: string;
   };
+  unsubscribe_status?: 'pending' | 'success' | 'failed';
+  unsubscribed_at?: string;
 }
 
 @Injectable({
@@ -51,7 +53,21 @@ export class EmailService {
     return this.http.post<void>(`${this.apiUrl}/emails/bulk-delete`, emailIds);
   }
 
-  unsubscribeFromEmails(emailIds: number[]): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/emails/unsubscribe`, emailIds);
+  unsubscribeFromEmails(emailIds: number[]): Observable<{
+    message: string;
+    results: Array<{
+      email_id: number;
+      status: string;
+      unsubscribe_link: string;
+    }>;
+  }> {
+    return this.http.post<{
+      message: string;
+      results: Array<{
+        email_id: number;
+        status: string;
+        unsubscribe_link: string;
+      }>;
+    }>(`${this.apiUrl}/emails/bulk-unsubscribe`, { email_ids: emailIds });
   }
 }

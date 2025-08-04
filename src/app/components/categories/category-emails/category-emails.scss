@@ -174,3 +174,37 @@
     }
   }
 }
+
+.email-metadata {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .email-date {
+    color: #5f6368;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .unsubscribe-status {
+    mat-chip {
+      height: 24px;
+      font-size: 12px;
+
+      &.status-success {
+        background-color: #e6f4ea;
+        color: #1e8e3e;
+      }
+
+      &.status-pending {
+        background-color: #fef7e0;
+        color: #f29900;
+      }
+
+      &.status-failed {
+        background-color: #fce8e6;
+        color: #d93025;
+      }
+    }
+  }
+}

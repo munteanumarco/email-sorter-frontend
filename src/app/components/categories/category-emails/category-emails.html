@@ -42,7 +42,18 @@
                 <div class="email-sender">From: {{ email.sender }}</div>
                 <div class="email-receiver" *ngIf="email.gmail_account?.email">To: {{ email.gmail_account?.email }}</div>
               </div>
-              <div class="email-date">{{ email.received_at | date:'medium' }}</div>
+              <div class="email-metadata">
+                <div class="email-date">{{ email.received_at | date:'medium' }}</div>
+                <div class="unsubscribe-status" *ngIf="email.unsubscribe_status">
+                  <mat-chip [class]="'status-' + email.unsubscribe_status">
+                    {{ 
+                      email.unsubscribe_status === 'success' ? 'Unsubscribed' : 
+                      email.unsubscribe_status === 'pending' ? 'Unsubscribing...' : 
+                      'Unsubscribe Failed'
+                    }}
+                  </mat-chip>
+                </div>
+              </div>
             </div>
             <div class="email-subject">{{ email.subject }}</div>
             <div class="email-summary" *ngIf="email.summary">{{ email.summary }}</div>
